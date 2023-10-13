@@ -19,3 +19,20 @@ app.get("/", (req, res) => {
 
 app.use(errorHandlerMiddleware);
 app.use(notFound);
+
+
+// port
+const port = process.env.PORT || 3000
+
+// Starting 
+const start = async () =>
+{
+  try {
+    // Connect db
+    app.listen(port, console.log(`Server is listening to ${port}...`));
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+start();
