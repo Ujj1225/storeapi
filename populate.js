@@ -15,8 +15,10 @@ const start = async () => {
     // Array can also be used to create products
     await Product.create(jsonProducts);
     console.log("Success");
+    process.exit(0)
   } catch (error) {
     console.log(error);
+    process.exit(1)
   }
 };
 
