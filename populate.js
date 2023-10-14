@@ -8,14 +8,16 @@ const Product = require("./models/product");
 
 const jsonProducts = require("./products.json");
 
-const start = async () =>
-{
-    try {
-        await connectDB(process.env.MONGO_URL);
-        console.log('connection successful');
-    } catch (error) {
-        console.log(error);
-    }
-}
+const start = async () => {
+  try {
+    await connectDB(process.env.MONGO_URL);
+    await Product.deleteMany();
+    // Array can also be used to create products
+    await Product.create(jsonProducts);
+    console.log("Success");
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-start()
+start();
