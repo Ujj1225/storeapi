@@ -1,13 +1,14 @@
 const Product = require("../models/product");
 
 const getAllProductsStatic = async (req, res) => {
+  const search = "a";
   // throw new Error('testing async errors');
 
   // The .find({}) finds all the products
   // Any property of the model inside .find will be found like here .find({featured: true})
   const products = await Product.find({
-    featured: true,
-    name: "vase table",
+    // Regular expression or regex is used to describe a pattern and here option: i simply means case insensivite
+    name: { $regex: search, $option: "i" },
   });
   res.status(200).json({ products, nbHits: products.length });
 };
@@ -22,7 +23,7 @@ const getAllProducts = async (req, res) => {
     if (company) {
       queryObject.company = company;
     }
-    if(name){
+    if (name) {
       queryObject.name = name;
     }
     console.log(queryObject);
