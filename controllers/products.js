@@ -23,7 +23,29 @@ const getAllProducts = async (req, res) => {
     queryObject.name = { $regex: name, $options: "i" };
   }
   if (numericFilters) {
-    console.log(numericFilters);
+    const operatorMap = {
+      ">": "$gt",
+      "<": "$lt",
+      ">=": "$gte",
+      "<=": "$lte",
+      "=": "$e",
+    };
+    // console.log(numericFilters);
+
+    const regEx = /\b(<|>|>=|<=|=)\b/g;
+    let filters = numericFilters.replace(regEx, (match) => {
+      return `-${operatorMap[match]}-`;
+    });
+
+    console.log(filters);
+    const options = ['price', 'rating']
+    filters = filters.split(',').forEach((item) => {
+      console.log(item);
+      const [field, operator, value] = item.split('-')
+      if(options.includes(field)){
+        queryObject[field] = {[operator]: Number(value)}
+      }
+    })
   }
   console.log(queryObject);
 
